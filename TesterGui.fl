@@ -1,0 +1,58 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0304
+header_name {.h}
+code_name {.cxx}
+decl {\#include "ChessBoard.h"} {public global
+}
+
+decl {\#include "TesterLogic.h"} {private global
+}
+
+class TesterGui {open
+} {
+  Function {make_window()} {open
+  } {
+    Fl_Window mainWindow {
+      label Tester open
+      xywh {239 132 1024 768} type Double visible
+    } {
+      Fl_Tabs {} {open
+        xywh {-1 0 1025 768}
+      } {
+        Fl_Group {} {
+          label chess open
+          xywh {0 19 1023 749}
+        } {
+          Fl_Box chessBoard {
+            label label selected
+            xywh {24 44 30 16}
+            code0 {\#include "ChessBoard.h"}
+            class ChessBoard
+          }
+        }
+        Fl_Group {} {
+          label otherWidgetsA open
+          xywh {24 24 15 15} hide
+        } {}
+        Fl_Group {} {
+          label otherWidgetsB open
+          xywh {24 24 15 15} hide
+        } {}
+      }
+    }
+  }
+}
+
+Function {} {open
+} {
+  code {TesterGui gui;
+Fl_Double_Window *w = gui.make_window();
+onGuiFinished(&gui, argc, argv);
+//Fl::add_idle(onIdle, &gui);
+w->end();
+w->show();
+int rc = Fl::run();
+onExit();
+return rc;
+/* fluid will insert Fl::run() here... */} {}
+}
