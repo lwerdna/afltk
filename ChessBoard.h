@@ -16,8 +16,9 @@ class ChessBoard : public Fl_Widget {
     public:
     ChessBoard(int X, int Y, int W, int H, const char *label=0);
   
-    void setCallback(ChessBoard_callback cb);
-    void clrCallback(void);
+    void callbackSet(ChessBoard_callback cb);
+    void callbackClear(void);
+	void callbackCall(void);
 
 	/* fen stuff */
 	char boardArray[8][8];
@@ -25,7 +26,7 @@ class ChessBoard : public Fl_Widget {
 	void fenGet(string& fen);
 
 	/* draw helpers, function */
-	void pixCoordToRankFile(int xPix, int yPix, int& rank, int& file);
+	void xyToRankFile(int xPix, int yPix, int& rank, int& file);
 	void draw(void);
 
 	/* event handler */

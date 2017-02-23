@@ -14,7 +14,7 @@ class TesterGui {open
   } {
     Fl_Window mainWindow {
       label Tester open
-      xywh {239 132 1024 768} type Double visible
+      xywh {253 109 1024 768} type Double visible
     } {
       Fl_Tabs {} {open
         xywh {-1 0 1025 768}
@@ -24,10 +24,19 @@ class TesterGui {open
           xywh {0 19 1023 749}
         } {
           Fl_Box chessBoard {
-            label label selected
-            xywh {24 44 30 16}
+            xywh {24 44 600 524}
             code0 {\#include "ChessBoard.h"}
             class ChessBoard
+          }
+          Fl_Button {} {
+            label {load fen}
+            callback {chessBoard->fenSet(inputFen->value());}
+            xywh {480 620 63 20}
+          }
+          Fl_Input inputFen {
+            label {fen:} selected
+            xywh {64 620 412 24}
+            code0 {inputFen->value("2r1n1k1/1p1rppbp/1qp3p1/p7/P2PP3/1P1QBN2/5PPP/3RR1K1 b - - 10 24");}
           }
         }
         Fl_Group {} {

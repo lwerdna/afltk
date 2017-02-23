@@ -63,11 +63,12 @@ libafltk.a: $(OBJS)
 tester: $(OBJS)
 	$(LINK) $(LD_FLTK) $(OBJS) -o tester $(LD_FLAGS) $(LD_FLTK) -lautils
 
+install:
+	install -d /usr/local/include/afltk
+	install -m 644 ./*.h /usr/local/include/afltk
+	install ./libafltk.a /usr/local/lib
+
 clean: 
 	rm -f $(OBJS) 2> /dev/null
 	rm tester 2> /dev/null
 	rm libafltk.a 2> /dev/null
-
-install:
-	install ./libafltk.a /usr/local/lib
-

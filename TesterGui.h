@@ -8,11 +8,18 @@
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
 #include "ChessBoard.h"
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Input.H>
 
 class TesterGui {
 public:
   Fl_Double_Window* make_window();
   Fl_Double_Window *mainWindow;
   ChessBoard *chessBoard;
+private:
+  inline void cb_load_i(Fl_Button*, void*);
+  static void cb_load(Fl_Button*, void*);
+public:
+  Fl_Input *inputFen;
 };
 #endif

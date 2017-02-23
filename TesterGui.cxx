@@ -3,12 +3,19 @@
 #include "TesterGui.h"
 #include "TesterLogic.h"
 
+void TesterGui::cb_load_i(Fl_Button*, void*) {
+  chessBoard->fenSet(inputFen->value());
+}
+void TesterGui::cb_load(Fl_Button* o, void* v) {
+  ((TesterGui*)(o->parent()->parent()->parent()->user_data()))->cb_load_i(o,v);
+}
+
 Fl_Double_Window* TesterGui::make_window() {
   { mainWindow = new Fl_Double_Window(1024, 768, "Tester");
     mainWindow->user_data((void*)(this));
     { Fl_Tabs* o = new Fl_Tabs(-1, 0, 1025, 768);
       { Fl_Group* o = new Fl_Group(0, 19, 1023, 749, "chess");
-        { chessBoard = new ChessBoard(24, 44, 30, 16, "label");
+        { chessBoard = new ChessBoard(24, 44, 600, 524);
           chessBoard->box(FL_NO_BOX);
           chessBoard->color(FL_BACKGROUND_COLOR);
           chessBoard->selection_color(FL_BACKGROUND_COLOR);
@@ -19,6 +26,12 @@ Fl_Double_Window* TesterGui::make_window() {
           chessBoard->align(Fl_Align(FL_ALIGN_CENTER));
           chessBoard->when(FL_WHEN_RELEASE);
         } // ChessBoard* chessBoard
+        { Fl_Button* o = new Fl_Button(480, 620, 63, 20, "load fen");
+          o->callback((Fl_Callback*)cb_load);
+        } // Fl_Button* o
+        { inputFen = new Fl_Input(64, 620, 412, 24, "fen:");
+          inputFen->value("2r1n1k1/1p1rppbp/1qp3p1/p7/P2PP3/1P1QBN2/5PPP/3RR1K1 b - - 10 24");
+        } // Fl_Input* inputFen
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(24, 24, 15, 15, "otherWidgetsA");

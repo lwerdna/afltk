@@ -36,25 +36,32 @@ ChessBoard::ChessBoard(int x_, int y_, int w, int h, const char *label):
 	fenSet("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 }
 
-void ChessBoard::setCallback(ChessBoard_callback cb)
+void ChessBoard::callbackSet(ChessBoard_callback cb)
 {
     callback = cb;
 }
 
-void ChessBoard::clrCallback(void)
+void ChessBoard::callbackClear(void)
 {
     callback = NULL;
+}
+
+void ChessBoard::callbackCall(void)
+{
+	if(callback) {
+		callback();
+	}
 }
 
 /*****************************************************************************/
 /* drawing helpers */
 /*****************************************************************************/
-void ChessBoard::pixCoordToRankFile(int xPix, int yPix, int& rank, int& file)
+
+/* assume x,y are translated to this widget (not container widget) */
+void ChessBoard::xyToRankFile(int x, int y, int& rank, int& file)
 {
-	int xx = xPix - x();
-	int yy = yPix - y();
-	rank = yy / SQUARE_DIMENSION;
-	file = xx / SQUARE_DIMENSION;
+	rank = y / SQUARE_DIMENSION;
+	file = x / SQUARE_DIMENSION;
 }
 
 /*****************************************************************************/
@@ -145,6 +152,8 @@ void ChessBoard::fenGet(string &result)
 
 void ChessBoard::fenSet(const char *fen)
 {
+	printf("%s()\n", __func__);
+
 	int rank=0, file=0;
 	bool breakLoop = false;
 
@@ -217,6 +226,8 @@ void ChessBoard::fenSet(const char *fen)
 //		}
 //		printf("\n");
 //	}
+
+	redraw();
 }
 
 int ChessBoard::handle(int event)
@@ -271,19 +282,28 @@ int ChessBoard::handle(int event)
 		/* new selection? new piece? redraw */
 		if(rc) {
 			redraw();
-			callback();
+			callbackCall();
 		}
     }
     else
 	if(event == FL_RELEASE || event == FL_RELEASE) {
 		int mouseX = Fl::event_x() - x();
 		int mouseY = Fl::event_y() - y();
-		ChessBoard::pixCoordToRankFile(mouseX, mouseY, selRank, selFile);
-		//printf("translated click (%d,%d) to (rank,file)=(%d,%d)\n",
-		//	mouseX, mouseY, selRank, selFile);
+		ChessBoard::xyToRankFile(mouseX, mouseY, selRank, selFile);
+		printf("translated click (%d,%d) to (rank,file)=(%d,%d)\n",
+			mouseX, mouseY, selRank, selFile);
 		// with possible selection change, redraw()
 		redraw();
-		callback();
+		callbackCall();
+	}
+	else
+	if(event == FL_PUSH) {
+		Fl::focus(this);
+		rc = 1;
+	}
+	else
+	{
+		//printf("unknown event: %d\n", event);
 	}
     return rc;
 }
