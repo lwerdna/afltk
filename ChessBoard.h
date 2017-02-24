@@ -6,6 +6,9 @@ using namespace std;
 
 #include <FL/Fl_Widget.H>
 
+#define CHESSBOARD_WIDTH (64*8)
+#define CHESSBOARD_HEIGHT (64*8)
+
 typedef void (*ChessBoard_callback)(void);
 
 class ChessBoard : public Fl_Widget {
@@ -22,7 +25,7 @@ class ChessBoard : public Fl_Widget {
 
 	/* fen stuff */
 	char boardArray[8][8];
-	void fenSet(const char *fen);
+	void fenSet(string fen);
 	void fenGet(string& fen);
 
 	/* draw helpers, function */

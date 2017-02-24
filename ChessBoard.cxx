@@ -150,10 +150,11 @@ void ChessBoard::fenGet(string &result)
 	result += remainder;
 }
 
-void ChessBoard::fenSet(const char *fen)
+void ChessBoard::fenSet(string fen_)
 {
 	printf("%s()\n", __func__);
 
+	const char *fen = fen_.c_str();
 	int rank=0, file=0;
 	bool breakLoop = false;
 
