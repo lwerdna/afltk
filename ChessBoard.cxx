@@ -113,9 +113,11 @@ void ChessBoard::draw(void)
 	}
     
 	/* draw selection */
-	fl_draw_box(FL_BORDER_FRAME, anchorX+selFile*SQUARE_DIMENSION, 
-	  anchorY+selRank*SQUARE_DIMENSION, SQUARE_DIMENSION, SQUARE_DIMENSION, 
-	  fl_rgb_color(255, 0, 0));
+	if(selectableSquares) {
+		fl_draw_box(FL_BORDER_FRAME, anchorX+selFile*SQUARE_DIMENSION, 
+		  anchorY+selRank*SQUARE_DIMENSION, SQUARE_DIMENSION, SQUARE_DIMENSION, 
+		  fl_rgb_color(255, 0, 0));
+	}
 }
 
 void ChessBoard::fenGet(string &result)
@@ -152,7 +154,7 @@ void ChessBoard::fenGet(string &result)
 
 void ChessBoard::fenSet(string fen_)
 {
-	printf("%s()\n", __func__);
+	//printf("%s()\n", __func__);
 
 	const char *fen = fen_.c_str();
 	int rank=0, file=0;

@@ -12,6 +12,7 @@ using namespace std;
 typedef void (*ChessBoard_callback)(void);
 
 class ChessBoard : public Fl_Widget {
+	bool selectableSquares = false;
 	bool shiftHeld = false;
 	int selRank=0, selFile=0;
 	string remainder; // second half of fen (after piece info)
